@@ -56,10 +56,11 @@ Update these pins in your main code according to your hardware setup. Example co
 ```cpp
 // Example pin definitions (adjust according to your wiring)
 #define LED_PIN 2              // Blue status LED (built-in on most ESP32 boards)
-#define RELAY_PIN_1 4          // First relay switch
-#define RELAY_PIN_2 5          // Second relay switch
+#define RELAY_PIN_1 16          // First relay switch
+#define RELAY_PIN_2 17          // Second relay switch
 #define RELAY_PIN_3 18         // Third relay switch
 #define RELAY_PIN_4 19         // Fourth relay switch
+#define IR_SENSOR_PIN 34       // IR proximity sensor pin
 // Add more relay pins as needed
 ```
 
