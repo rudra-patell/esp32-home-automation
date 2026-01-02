@@ -51,11 +51,16 @@ When WiFi connection fails or is unavailable:
 
 ## Pin Configuration
 
-Update these pins in your `platformio.ini` or main code according to your hardware setup:
+Update these pins in your main code according to your hardware setup. Example configuration:
 
-```
-- Blue Status LED: GPIO (configure in code)
-- Relay Switches: GPIO (configure based on relay count)
+```cpp
+// Example pin definitions (adjust according to your wiring)
+#define LED_PIN 2              // Blue status LED (built-in on most ESP32 boards)
+#define RELAY_PIN_1 4          // First relay switch
+#define RELAY_PIN_2 5          // Second relay switch
+#define RELAY_PIN_3 18         // Third relay switch
+#define RELAY_PIN_4 19         // Fourth relay switch
+// Add more relay pins as needed
 ```
 
 ## Software Requirements
@@ -159,11 +164,19 @@ esp32-home-automation/
 
 ## Dependencies
 
-Main libraries used (managed by PlatformIO):
-- SinricPro for ESP32
-- WiFi and WebServer libraries
-- ESPAsyncWebServer (for web UI)
-- ArduinoJson (for data handling)
+Main libraries used (managed by PlatformIO). Add these to your `platformio.ini`:
+
+```ini
+lib_deps = 
+    sinricpro/SinricPro @ ^2.10.0
+    me-no-dev/ESPAsyncWebServer @ ^1.2.3
+    bblanchon/ArduinoJson @ ^6.21.0
+```
+
+Core ESP32 libraries (included by default):
+- WiFi (built-in)
+- WebServer (built-in)
+- DNSServer (for captive portal)
 
 ## Contributing
 
