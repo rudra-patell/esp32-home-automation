@@ -43,11 +43,21 @@ When WiFi connection fails or is unavailable:
 
 ## Hardware Requirements
 
-- ESP32 Development Board (ESP32-WROOM-32 or similar)
-- Relay modules (depends on number of switches needed)
+### Components List
+
+- **1 x ESP32-WROOM-32**: The dual-core microcontroller acting as the central hub
+- **1 x IR Proximity Sensor (TSOP1838)** (Optional): For manual override and remote control capabilities
+- **2 x 2-Channel Relay Modules**: To control up to 4 AC appliances (Lights, Fans, etc.)
+- **1 x Li-ion Battery**: For power backup and ensuring the system stays online during power flickers
+- **1 x HLK-5M05** (Optional): 5V AC-to-DC step-down power supply module for internal powering
 - Blue LED (with appropriate resistor, if not built-in)
-- Power supply (5V recommended)
 - Home appliances/devices to control
+
+### Circuit Schematic
+
+> **Note**: A detailed circuit schematic diagram will be added soon. The schematic will show the connections between the ESP32, relay modules, IR sensor, power supply, and other components.
+
+For now, refer to the [Pin Configuration](#pin-configuration) section below for the basic wiring connections.
 
 ## Pin Configuration
 
