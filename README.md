@@ -180,15 +180,19 @@ Main libraries used (managed by PlatformIO). Add these to your `platformio.ini`:
 
 ```ini
 lib_deps = 
-    sinricpro/SinricPro @ ^2.10.0
-    me-no-dev/ESPAsyncWebServer @ ^1.2.3
-    bblanchon/ArduinoJson @ ^6.21.0
+	sinricpro/SinricPro@^3.5.2
+	bblanchon/ArduinoJson@^7.0.3
+	crankyoldgit/IRremoteESP8266@^2.8.6
 ```
 
 Core ESP32 libraries (included by default):
 - WiFi (built-in)
 - WebServer (built-in)
 - DNSServer (for captive portal)
+
+## Circuit Diagram
+ - you can import and build a small and compect pcb if you want with this.
+ ![Project Schematic](schematics/Schematic_Exp-gr-82_2026-01-02.png)
 
 ## Contributing
 
