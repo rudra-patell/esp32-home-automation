@@ -12,15 +12,15 @@
 #include <WebSocketsServer.h>
 
 // -------- USER CONFIG --------
-const char* FALLBACK_SSID = "Rudra 2.0";
-const char* FALLBACK_PASS = "ssssssss";
+const char* FALLBACK_SSID = "WIFI_SSID"; //change with your config (it will be used as default wifi can be changed later)
+const char* FALLBACK_PASS = "WIFI_PASSWORD";
 
-const char* APP_KEY = "51641558-c57f-439e-b3d1-764ceb8ecfea";
-const char* APP_SECRET = "628ffd4d-7e3d-41bd-9ed3-415101e6e160-777a36bd-3905-4589-b670-6515b06d9362";
+const char* APP_KEY = "YOUR_APP_KEY";
+const char* APP_SECRET = "YOUR_APP_SECRET";
 
-const String DEVICE_ID_1 = "691815326dbd335b28df7c55";
-const String DEVICE_ID_2 = "6918160000f870dd77b9a786";
-const String DEVICE_ID_3 = "6918161c00f870dd77b9a7ab";
+const String DEVICE_ID_1 = "XXXXXXXXXXXXXXXXXXXXXXXX";  // put device IDs from sinric pro
+const String DEVICE_ID_2 = "XXXXXXXXXXXXXXXXXXXXXXXX";
+const String DEVICE_ID_3 = "XXXXXXXXXXXXXXXXXXXXXXXX";
 
 const int RELAY_PIN_1 = 16;
 const int RELAY_PIN_2 = 17;
@@ -32,7 +32,7 @@ const int IR_PIN = 34;                  // ADC pin for IR sensor (change if need
 const int IR_ON_MIN = 2600;             // 2800 - 200
 const int IR_ON_MAX = 3000;             // 2800 + 200
 
-const bool RELAY_ACTIVE_LOW = true;
+const bool RELAY_ACTIVE_LOW = true;  // for active low relays
 
 #define BOOT_BUTTON_PIN 0
 const unsigned long WIFI_CONNECT_TIMEOUT_MS = 20000UL; // 20s
