@@ -169,6 +169,7 @@ esp32-home-automation/
 │   └── main.cpp           # Main application code
 ├── include/               # Header files
 ├── lib/                   # Project libraries
+├── schematics/            # Circuit diagrams and wiring schematics
 ├── platformio.ini         # PlatformIO configuration
 └── README.md             # This file
 ```
