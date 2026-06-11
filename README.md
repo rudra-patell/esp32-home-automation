@@ -1,239 +1,97 @@
-# ESP32 Home Automation with SinricPro
+# Resilient IoT Control System — ESP32
 
-A cost-effective and reliable home automation solution built with ESP32 and SinricPro integration, featuring intelligent fallback mode for local control when cloud connectivity is unavailable.
+An ESP32-based home automation system with cloud control via SinricPro and a custom local fallback mode that keeps the system operational during network or cloud outages.
 
-## Features
-
-- **Cloud Control**: Full integration with SinricPro for remote control via smartphone app or voice assistants (Alexa, Google Home)
-- **Local Fallback Mode**: Automatic Access Point (AP) mode with local web UI when cloud connection fails
-- **Multi-Switch Control**: Control multiple relays/switches for various home appliances
-- **WiFi Configuration**: Easy WiFi setup through captive portal web interface
-- **Smart Status Indicators**: Visual LED feedback for system status
-- **PlatformIO Based**: Modern development workflow with dependency management
-
-## LED Status Indicators
-
-The built-in blue LED provides real-time system status feedback:
-
-| LED Pattern | Status | Description |
-|------------|--------|-------------|
-| **Fast Blinking** | Connecting | Attempting to connect to WiFi network and SinricPro server |
-| **Solid On** | Connected | Successfully connected to WiFi and cloud services |
-| **Slow Blinking** | Fallback Mode | Failed to connect to network; running in local AP mode |
-
-## Operating Modes
-
-### 1. Normal Mode (Cloud Connected)
-When successfully connected to your WiFi network and SinricPro:
-- Control devices remotely through SinricPro app
-- Voice control via Alexa or Google Home
-- Blue LED stays solid on
-- Full cloud features available
-
-### 2. Fallback Mode (Local Control)
-When WiFi connection fails or is unavailable:
-- ESP32 automatically creates a WiFi Access Point (AP)
-- Local web server starts for device control
-- Blue LED blinks slowly
-- Connect to the ESP32's WiFi network
-- Access web UI to:
-  - Control switches/relays directly
-  - Configure WiFi credentials
-  - Monitor device status
-
-## Hardware Requirements
-
-### Components List
-
-- **1 x ESP32-WROOM-32**: The dual-core microcontroller acting as the central hub
-- **1 x IR Proximity Sensor (TSOP1838)** (Optional): For manual override and remote control capabilities
-- **2 x 2-Channel Relay Modules**: To control up to 4 AC appliances (Lights, Fans, etc.)
-- **1 x Li-ion Battery**: For power backup and ensuring the system stays online during power flickers
-- **1 x HLK-5M05** (Optional): 5V AC-to-DC step-down power supply module for internal powering
-- Blue LED (with appropriate resistor, if not built-in)
-- Home appliances/devices to control
-
-### Circuit Schematic
-
-> **Note**: A detailed circuit schematic diagram will be added soon. The schematic will show the connections between the ESP32, relay modules, IR sensor, power supply, and other components.
-
-For now, refer to the [Pin Configuration](#pin-configuration) section below for the basic wiring connections.
-
-## Pin Configuration
-
-Update these pins in your main code according to your hardware setup. Example configuration:
-
-```cpp
-// Example pin definitions (adjust according to your wiring)
-#define LED_PIN 2              // Blue status LED (built-in on most ESP32 boards)
-#define RELAY_PIN_1 16          // First relay switch
-#define RELAY_PIN_2 17          // Second relay switch
-#define RELAY_PIN_3 18         // Third relay switch
-#define RELAY_PIN_4 19         // Fourth relay switch
-#define IR_SENSOR_PIN 34       // IR proximity sensor pin
-// Add more relay pins as needed
-```
-
-## Software Requirements
-
-- [PlatformIO](https://platformio.org/) IDE or VS Code with PlatformIO extension
-- SinricPro account (free tier available at [sinric.pro](https://sinric.pro))
-- Arduino framework for ESP32
-
-## Installation & Setup
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/rudra-patell/esp32-home-automation.git
-cd esp32-home-automation
-```
-
-### 2. Install PlatformIO
-If you haven't installed PlatformIO:
-- **VS Code**: Install PlatformIO IDE extension
-- **CLI**: `pip install platformio`
-
-### 3. Configure SinricPro Credentials
-Create or edit the configuration file with your SinricPro credentials:
-- App Key
-- App Secret
-- Device IDs for each switch
-
-### 4. Configure WiFi Credentials (Optional)
-You can hardcode WiFi credentials or set them up through the fallback web UI on first boot.
-
-### 5. Build and Upload
-```bash
-# Build the project
-pio run
-
-# Upload to ESP32
-pio run --target upload
-
-# Monitor serial output (optional)
-pio device monitor
-```
-
-## First Time Setup
-
-1. **Power on the ESP32** - Blue LED will start fast blinking
-2. **If WiFi credentials not configured**:
-   - Device enters fallback mode (slow blinking LED)
-   - Connect to the ESP32's WiFi AP (check serial monitor for AP name)
-   - Open browser and navigate to default gateway (usually `192.168.4.1`)
-   - Enter your WiFi credentials in the web interface
-   - Device will restart and connect to your network
-3. **Once connected** - Blue LED becomes solid, device registers with SinricPro
-
-## Usage
-
-### Remote Control (Normal Mode)
-1. Open SinricPro app on your smartphone
-2. Control your devices from anywhere with internet connection
-3. Use voice commands with Alexa or Google Home
-
-### Local Control (Fallback Mode)
-1. Connect to ESP32's WiFi network
-2. Open browser and go to `192.168.4.1` (or shown IP)
-3. Use web interface to toggle switches
-4. Configure network settings if needed
-
-## Troubleshooting
-
-### Blue LED keeps fast blinking
-- Check WiFi credentials are correct
-- Verify WiFi network is available
-- Check router settings (2.4GHz network required for ESP32)
-
-### Blue LED slow blinking immediately after boot
-- Device can't connect to configured WiFi
-- Either network is down or credentials are incorrect
-- Connect to fallback AP to reconfigure
-
-### Can't access web UI in fallback mode
-- Ensure you're connected to the ESP32's WiFi network
-- Try `192.168.4.1` in browser
-- Check serial monitor for actual IP address
-
-### SinricPro not responding
-- Verify internet connection
-- Check SinricPro credentials in code
-- Ensure device IDs match your SinricPro account
-- Check SinricPro service status
-
-## Project Structure
-
-```
-esp32-home-automation/
-├── src/                    # Source code files
-│   └── main.cpp           # Main application code
-├── include/               # Header files
-├── lib/                   # Project libraries
-├── schematics/            # Circuit diagrams and wiring schematics
-├── platformio.ini         # PlatformIO configuration
-└── README.md             # This file
-```
-
-## Dependencies
-
-Main libraries used (managed by PlatformIO). Add these to your `platformio.ini`:
-
-```ini
-lib_deps = 
-	sinricpro/SinricPro@^3.5.2
-	bblanchon/ArduinoJson@^7.0.3
-	crankyoldgit/IRremoteESP8266@^2.8.6
-```
-
-Core ESP32 libraries (included by default):
-- WiFi (built-in)
-- WebServer (built-in)
-- DNSServer (for captive portal)
-
-## Circuit Diagram
- - you can import and build a small and compect pcb if you want with this.
- ![Project Schematic](schematics/Schematic_Exp-gr-82_2026-01-02.png)
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit pull requests or open issues for bugs and feature requests.
-
-## License
-
-This project is open source. Please check the LICENSE file for more details.
-
-## Acknowledgments
-
-- [SinricPro](https://sinric.pro) for excellent IoT platform
-- [PlatformIO](https://platformio.org) for development environment
-- ESP32 community for resources and support
-
-## Support
-
-For issues and questions:
-- Open an issue on GitHub
-- Check SinricPro documentation
-- Review PlatformIO forums
-
-## Safety Warning
-
-⚠️ **IMPORTANT**: This project involves controlling AC powered devices. Please ensure:
-- Proper electrical safety measures are followed
-- Qualified electrician handles AC wiring
-- Appropriate relays rated for your load are used
-- All connections are properly insulated
-- Local electrical codes are followed
-
-## Future Enhancements
-
-Potential features for future releases:
-- MQTT support for additional integration options
-- Scheduling and automation rules
-- Energy monitoring
-- OTA (Over-The-Air) firmware updates
-- Multi-language web interface
-- Mobile app for local control
+Built with hardware reliability as the primary design constraint — not just software convenience.
 
 ---
 
-**Made with ❤️ for the maker community**
+## Design Decisions Worth Noting
+
+**Local Fallback Mode** — When cloud/WiFi is unavailable, the ESP32 switches to AP mode and hosts a local web server for direct device control. This is not a library feature; it's a custom state machine handling the cloud→local transition cleanly.
+
+**CGNAT Workaround** — Consumer ISPs in India typically assign private IPs via CGNAT, blocking inbound connections. Worked around this using SinricPro's outbound WebSocket model. Roadmap includes a fully local MQTT broker on a home Linux server to eliminate cloud dependency entirely.
+
+**Hardware Protection** — Flyback diodes on all inductive relay loads. AC supply via HLK-5M05 (isolated AC-to-DC). Li-ion backup with MCP73831-based charge management to handle power flickers without dropping the system.
+
+---
+
+## Hardware
+
+| Component | Role |
+|---|---|
+| ESP32-WROOM-32 | Dual-core MCU, central controller |
+| 2× 2-Channel Relay Module | Switches up to 4 AC loads |
+| HLK-5M05 | Isolated 5V AC-to-DC supply |
+| MCP73831 | Li-ion charge management IC |
+| TSOP1838 IR Sensor | Manual override / IR remote input |
+| Flyback Diodes | Inductive load protection on relay coils |
+
+Circuit schematic: [`schematics/Schematic_Exp-gr-82_2026-01-02.png`](schematics/Schematic_Exp-gr-82_2026-01-02.png)
+
+---
+
+## System Behavior
+
+```
+Power On
+   └─► Connect to WiFi + SinricPro
+         ├─► Success → Normal Mode (cloud control, LED solid)
+         └─► Fail    → Fallback Mode (AP + local web UI, LED slow blink)
+```
+
+**Normal Mode** — SinricPro cloud, voice control via Alexa/Google Assistant, remote access from anywhere.
+
+**Fallback Mode** — ESP32 creates its own WiFi AP. Connect to it, open `192.168.4.1`, control devices directly via web UI. No internet required.
+
+---
+
+## LED Status
+
+| Pattern | State |
+|---|---|
+| Fast blink | Connecting to WiFi / cloud |
+| Solid on | Connected, normal operation |
+| Slow blink | Fallback mode active |
+
+---
+
+## Stack
+
+- **Firmware**: Embedded C (Arduino framework via PlatformIO)
+- **Cloud**: SinricPro (WebSocket-based, outbound connection)
+- **Libraries**: SinricPro 3.5.2, ArduinoJson 7.x, IRremoteESP8266
+
+---
+
+## Build
+
+```bash
+git clone https://github.com/rudra-patell/esp32-home-automation.git
+cd esp32-home-automation
+pio run --target upload
+pio device monitor
+```
+
+Requires PlatformIO and a configured `credentials.h` with your SinricPro App Key, Secret, and Device IDs.
+
+---
+
+## Roadmap
+
+- [ ] Replace SinricPro with local MQTT broker (Mosquitto on home Linux server)
+- [ ] Edge Voice AI running fully locally
+- [ ] OTA firmware updates
+- [ ] Energy monitoring per relay channel
+
+---
+
+## Safety
+
+This project switches mains AC voltage. Ensure relay ratings match your load, all AC wiring is properly insulated, and a qualified electrician handles any mains connections.
+
+---
+
+## License
+
+MIT
